@@ -1,0 +1,47 @@
+ public class LRUCache
+    {
+        private Dictionary<int, string> cacheMap ;
+        private List<string> usedOrderList;
+        private int _size;
+        
+        public LRUCache(int size)
+        {
+        
+            _size = size;
+            cacheMap = new Dictionary<int , string>(_size);
+            usedOrderList = new  List<string> (_size);
+            
+        }
+        
+        public string Check(int inp)
+        {
+            if (cacheMap.ContainsKey(inp))
+            {
+                UpdateTimeOrder(inp);
+                return cacheMap[inp];
+            }
+            return null;
+        }
+        
+        public void Add(int key, string value)
+        {
+            if (IsFull())
+                RemoveLRU();
+            cacheMap.Add(key, value);
+            usedOrderList.Insert(0,key);
+        }
+        
+        private void UpdateTimeOrder (int key)
+        {
+            usedOrderList.Remove(key);
+            usedOrderList.Insert(0,key);
+        }
+        private bool IsFull()
+        {
+            if (cacheMap.Count() == _size)
+                return true;
+            return false;
+        }
+        
+        
+    }
